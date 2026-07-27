@@ -66,7 +66,7 @@ class TelemetryForegroundService : Service() {
         val osVersion = "Android ${Build.VERSION.RELEASE}"
 
         val prefs = getSharedPreferences("SmartMdmPrefs", Context.MODE_PRIVATE)
-        val savedServerUrl = prefs.getString("server_url", "http://192.168.1.100:4000") ?: "http://192.168.1.100:4000"
+        val savedServerUrl = prefs.getString("server_url", "https://smart-mdm-backend.vercel.app") ?: "https://smart-mdm-backend.vercel.app"
         val santriName = prefs.getString("santri_name", "") ?: ""
         val groupName = prefs.getString("group_name", "") ?: ""
 

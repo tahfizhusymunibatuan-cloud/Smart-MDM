@@ -13,6 +13,8 @@ import { AIModule } from './ai/ai.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
 import { SettingsModule } from './settings/settings.module';
 
+import { AppController } from './app.controller';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -29,5 +31,6 @@ import { SettingsModule } from './settings/settings.module';
     AuditLogsModule,
     SettingsModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("SmartMdmPrefs", Context.MODE_PRIVATE)
         val savedName = prefs.getString("santri_name", "")
         val savedGroup = prefs.getString("group_name", "")
-        val savedServerUrl = prefs.getString("server_url", "http://192.168.1.100:4000")
+        val savedServerUrl = prefs.getString("server_url", "https://smart-mdm-backend.vercel.app")
 
         if (!savedName.isNullOrEmpty()) etSantriName.setText(savedName)
         if (!savedGroup.isNullOrEmpty()) etGroupName.setText(savedGroup)
