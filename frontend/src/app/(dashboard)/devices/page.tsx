@@ -128,25 +128,24 @@ export default function DevicesPage() {
   const loadDevices = async () => {
     const res = await fetchApi('/devices');
     if (res?.success && Array.isArray(res?.data) && res.data.length > 0) {
-      setDevices(
-        res.data.map((d: any) => ({
-          id: d.id,
-          deviceName: d.deviceName,
-          userName: d.user?.fullName || 'Santri',
-          groupName: d.user?.groupName || 'Pondok',
-          osType: d.osType,
-          osVersion: d.osVersion,
-          isOnline: d.isOnline,
-          batteryLevel: d.batteryLevel,
-          ramMb: d.ramMb,
-          storageMb: d.storageMb,
-          internetType: d.internetType,
-          lastSyncAt: new Date(d.lastSyncAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-          monitoringActive: d.monitoringActive,
-          mdmStatus: d.mdmStatus,
-          deviceHealth: d.deviceHealth,
-        })),
-      );
+      const mappedLive = res.data.map((d: any) => ({
+        id: d.id,
+        deviceName: d.deviceName,
+        userName: d.user?.fullName || 'Santri',
+        groupName: d.user?.groupName || 'Pondok',
+        osType: d.osType,
+        osVersion: d.osVersion,
+        isOnline: d.isOnline,
+        batteryLevel: d.batteryLevel,
+        ramMb: d.ramMb,
+        storageMb: d.storageMb,
+        internetType: d.internetType,
+        lastSyncAt: new Date(d.lastSyncAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+        monitoringActive: d.monitoringActive,
+        mdmStatus: d.mdmStatus,
+        deviceHealth: d.deviceHealth,
+      }));
+      setDevices(mappedLive);
     }
   };
 

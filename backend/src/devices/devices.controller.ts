@@ -13,7 +13,6 @@ export class DevicesController {
     private mdmProfileService: MdmProfileService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Ringkasan metrik dashboard perangkat realtime' })
   @Get('dashboard-summary')
   async getDashboardSummary() {
@@ -21,7 +20,6 @@ export class DevicesController {
     return { success: true, data };
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Daftar semua perangkat dengan filter (search, OS, status, health)' })
   @Get()
   async getAllDevices(
@@ -34,7 +32,6 @@ export class DevicesController {
     return { success: true, data };
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Detail perangkat berdasarkan ID' })
   @Get(':id')
   async getDeviceById(@Param('id') id: string) {
