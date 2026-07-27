@@ -130,7 +130,7 @@ export default function RegisterSantriPage() {
 
             <div className="pt-2 space-y-2">
               <a
-                href="http://localhost:4000/devices/1/apple-mdm-profile"
+                href="https://smart-mdm-backend.vercel.app/devices/1/apple-mdm-profile"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs flex items-center justify-center space-x-2 transition-all shadow-lg shadow-emerald-500/20 touch-target"

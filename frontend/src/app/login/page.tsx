@@ -5,7 +5,7 @@ import { ShieldCheck, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://smart-mdm-backend.vercel.app';
 
 export default function LoginPage() {
   const router = useRouter();

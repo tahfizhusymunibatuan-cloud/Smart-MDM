@@ -341,7 +341,7 @@ export default function DevicesPage() {
 
                 {dev.osType === 'IOS' && (
                   <a
-                    href="http://localhost:4000/devices/1/apple-mdm-profile"
+                    href="https://smart-mdm-backend.vercel.app/devices/1/apple-mdm-profile"
                     target="_blank"
                     rel="noreferrer"
                     className="px-2.5 py-1.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 text-teal-400 text-xs font-semibold flex items-center space-x-1 transition-colors touch-target"
