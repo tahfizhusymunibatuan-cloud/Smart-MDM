@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+    <linearGradient id="shield-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bg-grad)"/>
+  
+  <!-- Outer Glow Circle -->
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#10b981" stroke-opacity="0.25" stroke-width="8"/>
+  
+  <!-- Shield Icon -->
+  <path d="M256 96 L376 144 V248 C376 332 322 396 256 424 C190 396 136 332 136 248 V144 Z" 
+        fill="url(#shield-grad)" filter="url(#shadow)"/>
+        
+  <!-- Smartphone Outline Inside Shield -->
+  <rect x="216" y="176" width="80" height="150" rx="14" fill="#090d16" stroke="#ffffff" stroke-width="6"/>
+  <rect x="236" y="186" width="40" height="6" rx="3" fill="#34d399"/>
+  <circle cx="256" cy="308" r="7" fill="#10b981"/>
+  
+  <!-- Checkmark / Star Emblem -->
+  <path d="M240 236 L252 248 L272 220" fill="none" stroke="#34d399" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

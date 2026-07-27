@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#0F172A">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- App Logo & Title Header -->
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@android:drawable/stat_sys_warning"
+            android:contentDescription="Icon"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Smart MDM Pondok"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pondok Pesantren Tahfizh Quran Al-Usymuni"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- ID Perangkat Card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp"
+            android:background="#1E293B"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID PERANGKAT (OTOMATIS SISTEM):"
+                android:textColor="#64748B"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="2dp"/>
+
+            <TextView
+                android:id="@+id/tvDeviceId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DEV-ANDROID-AUTO"
+                android:textColor="#10B981"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Form Registrasi / Login Santri -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#1E293B"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FORM REGISTRASI & LOGIN SANTRI"
+                android:textColor="#38BDF8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Input Nama Santri -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Lengkap Santri:"
+                android:textColor="#CBD5E1"
+                android:textSize="11sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etSantriName"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:hint="Contoh: Ahmad Fauzi"
+                android:textColorHint="#64748B"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:padding="10dp"
+                android:background="#0F172A"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Input Kelas / Kamar -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kategori / Kelas / Kamar:"
+                android:textColor="#CBD5E1"
+                android:textSize="11sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etGroupName"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:hint="Contoh: Kelas X - Kamar As-Syafi'i"
+                android:textColorHint="#64748B"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:padding="10dp"
+                android:background="#0F172A"
+                android:inputType="text"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Input Server URL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="URL Server Admin (Backend):"
+                android:textColor="#CBD5E1"
+                android:textSize="11sp"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etServerUrl"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:hint="http://192.168.1.100:4000"
+                android:textColorHint="#64748B"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:padding="10dp"
+                android:background="#0F172A"
+                android:inputType="textUri"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Button Register & Hubungkan -->
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="📝 REGISTER & HUBUNGKAN KE ADMIN"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:backgroundTint="#0284C7"/>
+        </LinearLayout>
+
+        <!-- Tombol Aktifkan Monitoring / Izin -->
+        <Button
+            android:id="@+id/btnAutoStart"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="⚡ IZINKAN AKSES & MONITORING"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:backgroundTint="#10B981"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Status Realtime -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status: Menunggu Registrasi Santri"
+            android:textColor="#CBD5E1"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:padding="8dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,229 @@
+// Prisma Schema - Smart MDM Pondok
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  PENGURUS
+  PENGASUH
+  SANTRI
+}
+
+enum OsType {
+  ANDROID
+  IOS
+}
+
+enum MdmStatus {
+  DEVICE_OWNER
+  ACCESSIBILITY_USAGE
+  APPLE_MDM
+  UNMANAGED
+}
+
+enum DeviceHealth {
+  GREEN   // Normal
+  YELLOW  // Needs Attention (slow sync, low battery)
+  RED     // Inactive / Disabled / Unenrolled
+}
+
+enum PolicyType {
+  BEDTIME
+  STUDY
+  NGAJI
+  CUSTOM
+}
+
+enum TargetType {
+  ALL
+  GROUP
+  SPECIFIC_USER
+}
+
+enum ViolationType {
+  LATE_NIGHT_USAGE
+  APP_BYPASS_ATTEMPT
+  PERMISSION_REVOKED
+  MDM_UNENROLLED
+  UN_SYNCED
+}
+
+model User {
+  id           String      @id @default(uuid())
+  username     String      @unique
+  passwordHash String
+  fullName     String
+  role         Role        @default(SANTRI)
+  groupName    String?     // e.g. "Kamar As-Syafi'i", "Kelas 12 MA"
+  phone        String?
+  avatarUrl    String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  devices      Device[]
+  auditLogs    AuditLog[]  @relation("ActorAuditLogs")
+  violations   Violation[]
+
+  @@map("users")
+}
+
+model Device {
+  id               String       @id @default(uuid())
+  serialNumber     String       @unique
+  deviceName       String
+  userId           String
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  osType           OsType
+  osVersion        String
+  isOnline         Boolean      @default(false)
+  batteryLevel     Int          @default(100)
+  ramMb            Int          @default(4096)
+  storageMb        Int          @default(64000)
+  internetType     String       @default("WIFI") // WIFI / CELLULAR / NONE
+  lastSyncAt       DateTime     @default(now())
+  monitoringActive Boolean      @default(true)
+  mdmStatus        MdmStatus    @default(UNMANAGED)
+  deviceHealth     DeviceHealth @default(GREEN)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  activityLogs     ActivityLog[]
+  appUsages        AppUsage[]
+  violations       Violation[]
+  notifications    Notification[]
+
+  @@map("devices")
+}
+
+model ActivityLog {
+  id              String   @id @default(uuid())
+  deviceId        String
+  device          Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  eventType       String   // SCREEN_ON, SCREEN_OFF, APP_LAUNCH, APP_CLOSE, UNLOCK
+  appName         String?
+  packageName     String?
+  durationSeconds Int      @default(0)
+  timestamp       DateTime @default(now())
+
+  @@map("activity_logs")
+}
+
+model AppUsage {
+  id              String   @id @default(uuid())
+  deviceId        String
+  device          Device   @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  appName         String
+  packageName     String
+  openTime        DateTime
+  closeTime       DateTime
+  durationSeconds Int
+  launchCount     Int      @default(1)
+  date            String   // YYYY-MM-DD for fast querying
+
+  @@map("app_usage")
+}
+
+model Policy {
+  id            String                  @id @default(uuid())
+  title         String
+  policyType    PolicyType              @default(CUSTOM)
+  startTime     String                  // HH:mm format, e.g. "22:00"
+  endTime       String                  // HH:mm format, e.g. "04:00"
+  targetType    TargetType              @default(ALL)
+  targetGroups  String[]                // List of groups if TargetType == GROUP
+  targetUserIds String[]                // List of user IDs if TargetType == SPECIFIC_USER
+  isEnabled     Boolean                 @default(true)
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  restrictions  PolicyAppRestriction[]
+
+  @@map("policies")
+}
+
+model PolicyAppRestriction {
+  id          String   @id @default(uuid())
+  policyId    String
+  policy      Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  appName     String
+  packageName String
+
+  @@map("policy_app_restrictions")
+}
+
+model Violation {
+  id            String        @id @default(uuid())
+  deviceId      String
+  device        Device        @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  violationType ViolationType
+  description   String
+  severity      String        @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  timestamp     DateTime      @default(now())
+  isResolved    Boolean       @default(false)
+
+  @@map("violations")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  deviceId  String?
+  device    Device?  @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO, WARNING, DANGER, CRITICAL
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  actorId   String?
+  actor     User?    @relation("ActorAuditLogs", fields: [actorId], references: [id], onDelete: SetNull)
+  actorName String
+  action    String   // e.g. "POLICY_CREATED", "PASSWORD_CHANGED", "DEVICE_LOCKED"
+  target    String   // e.g. "Policy: Jam Tidur", "User: Ahmad"
+  metadata  Json?
+  ipAddress String?
+  timestamp DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model AISummary {
+  id                   String   @id @default(uuid())
+  date                 String   @unique // YYYY-MM-DD
+  summaryText          String
+  lateNightCount       Int      @default(0)
+  avgScreenTimeMinutes Int      @default(0)
+  riskLevel            String   @default("LOW") // LOW, MEDIUM, HIGH
+  recommendations      Json     // Array of recommendations for Pengasuh
+  createdAt            DateTime @default(now())
+
+  @@map("ai_summaries")
+}
+
+model SystemSettings {
+  id                    String   @id @default("default")
+  pondokName            String   @default("Pondok Pesantren Smart MDM")
+  bedtimeStart          String   @default("22:00")
+  bedtimeEnd            String   @default("04:00")
+  studyStart            String   @default("08:00")
+  studyEnd              String   @default("11:30")
+  ngajiStart            String   @default("18:00")
+  ngajiEnd              String   @default("20:00")
+  syncThresholdMinutes Int      @default(15)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("system_settings")
+}
